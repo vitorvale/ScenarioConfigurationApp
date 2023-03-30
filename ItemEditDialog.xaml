@@ -1,0 +1,39 @@
+﻿<Window x:Class="ScenariosConfiguration.ItemEditDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScenariosConfiguration"
+        mc:Ignorable="d"
+        Title="Edit dialog" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        ContentRendered="Window_ContentRendered" Height="196" Width="427">
+    <Grid Margin="20,10,15,36">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label x:Name="DialogNameLbl" Margin="0,0,336,107" Content="Nome:" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+        <TextBox x:Name="DialogDescriptionTxtBox" Grid.Row="2" MinWidth="250" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="251" Grid.Column="1" Margin="97,0,0,0" TextChanged="DialogDescriptionTxtBox_TextChanged"/>
+
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,106,-6,-23" Grid.Column="1">
+            <Button x:Name="DialogCancelButton" IsCancel="True" MinWidth="60" Margin="0,0,10,0" Height="24" Width="70" Content="_Cancelar" Click="DialogCancelButton_Click"/>
+            <Button IsDefault="True" x:Name="DialogSaveBtn" Click="DialogSaveBtn_Click" MinWidth="60" Margin="0,0,0,0" Height="24" Width="70" Content="_Guardar"/>
+        </WrapPanel>
+        <TextBox x:Name="DialogTemperatureTxtBox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" TextChanged="DialogTemperatureTxtBox_TextChanged"/>
+        <Label x:Name="DialogTemperatureLbl" Content="Label" HorizontalAlignment="Center" Margin="0,35,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox x:Name="DialogVentilationTxtBox" HorizontalAlignment="Left" Margin="65,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogVentilationTxtBox_TextChanged"/>
+        <Label x:Name="DialogVentilationLbl" Content="Label" HorizontalAlignment="Left" Margin="65,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="DialogHumidityTxtBox" HorizontalAlignment="Left" Margin="166,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogHumidityTxtBox_TextChanged"/>
+        <Label x:Name="DialogHumidityLbl" Content="Label" HorizontalAlignment="Left" Margin="166,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="DialogDurationTxtBox" HorizontalAlignment="Left" Margin="268,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogDurationTxtBox_TextChanged"/>
+        <Label x:Name="DialogDurationLbl" Content="Label" HorizontalAlignment="Left" Margin="268,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="DialogDescriptionLbl" Grid.Column="1" Content="Descrição:" HorizontalAlignment="Left" Margin="97,0,0,0" VerticalAlignment="Center"/>
+        <TextBox x:Name="DialogNameTxtBox" HorizontalAlignment="Left" Margin="0,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="105" Grid.RowSpan="3" Grid.ColumnSpan="2" TextChanged="DialogNameTxtBox_TextChanged"/>
+    </Grid>
+</Window>

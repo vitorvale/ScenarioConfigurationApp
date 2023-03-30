@@ -1,0 +1,30 @@
+﻿<Window x:Name="EditWindow" x:Class="ScenariosConfiguration.RecipeEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScenariosConfiguration"
+        xmlns:p = "clr-namespace:ScenariosConfiguration.Resources"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Edição de Receita" Height="342" Width="496" Closed="ScenarioEditWindow_Closed">
+    <Grid Margin="10,0,10,1">
+        <Button x:Name="SaveBtn" Content="Guardar" HorizontalAlignment="Right" Margin="0,0,95,15" VerticalAlignment="Bottom" Click="SaveBtn_Click" Padding="0,0,0,0" Grid.Column="1" Height="24" IsDefault="True" IsEnabled="False" Grid.Row="1" Width="70"/>
+        <TextBox x:Name="RecipeNameTxtBox" HorizontalAlignment="Left" Margin="21,49,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" Height="24" MaxLines="1" IsReadOnly="True" IsTabStop="False" Focusable="False" AllowDrop="False" AutomationProperties.HelpText="ADF CSV file that will be imported for parsing" InputScope="FullFilePath" TextChanged="RecipeNameTxtBox_TextChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+        <Button x:Name="CancelBtn" Content="Cancelar" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Padding="0,0,0,0" Grid.Column="1" Height="24" Click="CancelBtn_Click" Grid.Row="1" Width="70"/>
+        <TextBox x:Name="RecipeDescriptionTxtBox" HorizontalAlignment="Left" Margin="192,49,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="262" Height="24" MaxLines="1" IsReadOnly="True" InputScope="FullFilePath" AutomationProperties.HelpText="Destination folder where to export the generated xlsl file" Focusable="False" IsTabStop="False" AllowDrop="False" TextChanged="RecipeDescriptionTxtBox_TextChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+        <Label x:Name="RecipeDescriptionLbl" Content="Descrição" HorizontalAlignment="Left" Margin="192,15,0,0" VerticalAlignment="Top" Width="73" HorizontalContentAlignment="Right" FontWeight="Bold" FontSize="14" VerticalContentAlignment="Center" Height="29"/>
+        <Label x:Name="RecipeNameLbl" Content="Nome" HorizontalAlignment="Left" Margin="21,15,0,0" VerticalAlignment="Top" Width="54" HorizontalContentAlignment="Right" FontSize="14" FontWeight="Bold" VerticalContentAlignment="Center" Height="29"/>
+        <Label x:Name="StagesLbl" Content="Estágios" ContentStringFormat="{}{0}:" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="62" Height="24" HorizontalContentAlignment="Right" Padding="5,5,5,3" VerticalContentAlignment="Center"/>
+        <ListBox x:Name="StagesBox" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="21,183,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="280" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="StagesBox_SelectionChanged">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" ItemWidth="138" ItemHeight="19"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Button x:Name="AddStageButton" Content="Adicionar" HorizontalAlignment="Left" Margin="21,124,0,0" VerticalAlignment="Top" Width="81" Height="25" Click="AddStageButton_Click"/>
+        <Button x:Name="RemoveStageButton" Content="Remover" HorizontalAlignment="Left" Margin="120,124,0,0" VerticalAlignment="Top" Width="82" Height="25" Click="RemoveStageButton_Click"/>
+        <Button x:Name="EditStageButton" Content="Editar" HorizontalAlignment="Left" Margin="219,124,0,0" VerticalAlignment="Top" Width="82" Height="25" Click="EditStageButtonClick"/>
+    </Grid>
+</Window>

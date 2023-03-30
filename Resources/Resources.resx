@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ADFCSVfileLabel" xml:space="preserve">
+    <value>ADF CSV file</value>
+  </data>
+  <data name="ADFCSVinputLabel" xml:space="preserve">
+    <value>ADF CSV input</value>
+  </data>
+  <data name="ADFCSVtoExcelTitle" xml:space="preserve">
+    <value>ADF CSV to Excel</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="AreaName" xml:space="preserve">
+    <value>Area name</value>
+  </data>
+  <data name="Areas" xml:space="preserve">
+    <value>Areas</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ConversionNotPossibleMessage" xml:space="preserve">
+    <value>Conversion of CSV file was not possible!</value>
+  </data>
+  <data name="ConversionNotPossibleTitle" xml:space="preserve">
+    <value>CSV error</value>
+  </data>
+  <data name="CSVConversionMessage" xml:space="preserve">
+    <value>Conversion of CSV file to Excel '{0}' is completed!</value>
+  </data>
+  <data name="CSVConversionTitle" xml:space="preserve">
+    <value>ADF CSV conversion</value>
+  </data>
+  <data name="CSVFileDoesNotExistMessage" xml:space="preserve">
+    <value>The CSV file defined does not exists!</value>
+  </data>
+  <data name="CSVFileDoesNotExistTitle" xml:space="preserve">
+    <value>CSV file error</value>
+  </data>
+  <data name="CSVSeparatorLabel" xml:space="preserve">
+    <value>CSV separator</value>
+  </data>
+  <data name="DataColumnHeader" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="DateColumnHeader" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DateFormatLabel" xml:space="preserve">
+    <value>Date format</value>
+  </data>
+  <data name="DestinationFolderButton" xml:space="preserve">
+    <value>Destination folder ...</value>
+  </data>
+  <data name="DestinationFolderLabel" xml:space="preserve">
+    <value>Destination folder</value>
+  </data>
+  <data name="EditArea" xml:space="preserve">
+    <value>Edit Area</value>
+  </data>
+  <data name="EditProbe" xml:space="preserve">
+    <value>Edit Probe</value>
+  </data>
+  <data name="EditUnit" xml:space="preserve">
+    <value>Edit Unit</value>
+  </data>
+  <data name="ExcelOutputLabel" xml:space="preserve">
+    <value>Excel output</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="FileWithNameExistsMessage" xml:space="preserve">
+    <value>There is already a file with the same name '{0}'. Do you want to replace the existent file?</value>
+  </data>
+  <data name="FileWithNameExistsTitle" xml:space="preserve">
+    <value>File exists</value>
+  </data>
+  <data name="FolderDoesNotExistMessage" xml:space="preserve">
+    <value>The destination folder is not defined!</value>
+  </data>
+  <data name="FolderDoesNotExistTitle" xml:space="preserve">
+    <value>Destination error</value>
+  </data>
+  <data name="IndexColumnHeader" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Probe" xml:space="preserve">
+    <value>Probe</value>
+  </data>
+  <data name="ProbeColumnHeader" xml:space="preserve">
+    <value>Probe</value>
+  </data>
+  <data name="ProbeName" xml:space="preserve">
+    <value>Probe name</value>
+  </data>
+  <data name="Probes" xml:space="preserve">
+    <value>Probes</value>
+  </data>
+  <data name="ReadingColumnHeader" xml:space="preserve">
+    <value>Reading</value>
+  </data>
+  <data name="SelectCSVButtonText" xml:space="preserve">
+    <value>Select CSV ...</value>
+  </data>
+  <data name="SelectDestinationFolder" xml:space="preserve">
+    <value>Select the destination folder</value>
+  </data>
+  <data name="TimeColumnHeader" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TimeFormatLabel" xml:space="preserve">
+    <value>Time format</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="UnitsColumnHeader" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="ZoneColumnHeader" xml:space="preserve">
+    <value>Zone</value>
+  </data>
+</root>

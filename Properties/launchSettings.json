@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CSV2Excel": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "EPPlusLicenseContext": "NonCommercial"
+      }
+    }
+  }
+}
