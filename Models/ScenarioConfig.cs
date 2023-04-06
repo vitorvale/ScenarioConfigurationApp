@@ -2,7 +2,7 @@
 
 namespace ScenariosConfiguration.Models
 {
-    public class Scenario_Config
+    public class ScenarioConfig
     {
         public int Id { get; set; }
 
@@ -22,8 +22,9 @@ namespace ScenariosConfiguration.Models
 
         public string Description { get; set; } = string.Empty;
 
-        public Recipe[] Recipees { get; set; }
+        public Recipe[] Recipees { get; set; } = new Recipe[0];
 
-        public Datapoint[] Datapoints { get; set; }
+        public Datapoint[] Datapoints { get; set; } = new Datapoint[0];
+
     }
 }

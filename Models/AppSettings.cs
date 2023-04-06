@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ScenariosConfiguration.Models {
-    internal class AppSettings {
+    public class AppSettings {
 
         public int UpdateFrequency { get; set; }
 
-        public WatchDog WatchDog { get; set; }
+        public WatchDog WatchDog { get; set; } = new WatchDog();
         
     }
 

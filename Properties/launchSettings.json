@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "CSV2Excel": {
+    "ScenariosConfig": {
       "commandName": "Project",
       "environmentVariables": {
         "EPPlusLicenseContext": "NonCommercial"

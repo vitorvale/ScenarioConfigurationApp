@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScenariosConfiguration"
         mc:Ignorable="d"
-        Title="Edit dialog" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
-        ContentRendered="Window_ContentRendered" Height="196" Width="427">
+        Title="Edição de Estágio" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        ContentRendered="Window_ContentRendered" Height="196" Width="427" ResizeMode="CanMinimize">
     <Grid Margin="20,10,15,36">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -19,21 +19,21 @@
         </Grid.RowDefinitions>
 
         <Label x:Name="DialogNameLbl" Margin="0,0,336,107" Content="Nome:" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
-        <TextBox x:Name="DialogDescriptionTxtBox" Grid.Row="2" MinWidth="250" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="251" Grid.Column="1" Margin="97,0,0,0" TextChanged="DialogDescriptionTxtBox_TextChanged"/>
+        <TextBox x:Name="DialogDescriptionTxtBox" MinWidth="250" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="251" Grid.Column="1" Margin="32,25,0,0" TextChanged="DialogDescriptionTxtBox_TextChanged" Grid.RowSpan="3"/>
 
         <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,106,-6,-23" Grid.Column="1">
             <Button x:Name="DialogCancelButton" IsCancel="True" MinWidth="60" Margin="0,0,10,0" Height="24" Width="70" Content="_Cancelar" Click="DialogCancelButton_Click"/>
             <Button IsDefault="True" x:Name="DialogSaveBtn" Click="DialogSaveBtn_Click" MinWidth="60" Margin="0,0,0,0" Height="24" Width="70" Content="_Guardar"/>
         </WrapPanel>
-        <TextBox x:Name="DialogTemperatureTxtBox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" TextChanged="DialogTemperatureTxtBox_TextChanged"/>
-        <Label x:Name="DialogTemperatureLbl" Content="Label" HorizontalAlignment="Center" Margin="0,35,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <TextBox x:Name="DialogVentilationTxtBox" HorizontalAlignment="Left" Margin="65,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogVentilationTxtBox_TextChanged"/>
-        <Label x:Name="DialogVentilationLbl" Content="Label" HorizontalAlignment="Left" Margin="65,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
-        <TextBox x:Name="DialogHumidityTxtBox" HorizontalAlignment="Left" Margin="166,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogHumidityTxtBox_TextChanged"/>
-        <Label x:Name="DialogHumidityLbl" Content="Label" HorizontalAlignment="Left" Margin="166,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
-        <TextBox x:Name="DialogDurationTxtBox" HorizontalAlignment="Left" Margin="268,59,0,0" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogDurationTxtBox_TextChanged"/>
-        <Label x:Name="DialogDurationLbl" Content="Label" HorizontalAlignment="Left" Margin="268,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
-        <Label x:Name="DialogDescriptionLbl" Grid.Column="1" Content="Descrição:" HorizontalAlignment="Left" Margin="97,0,0,0" VerticalAlignment="Center"/>
-        <TextBox x:Name="DialogNameTxtBox" HorizontalAlignment="Left" Margin="0,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="105" Grid.RowSpan="3" Grid.ColumnSpan="2" TextChanged="DialogNameTxtBox_TextChanged"/>
+        <TextBox x:Name="DialogTemperatureTxtBox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" TextChanged="DialogTemperatureTxtBox_TextChanged"/>
+        <Label x:Name="DialogTemperatureLbl" Content="Temperatura (Cº)" HorizontalAlignment="Center" Margin="0,35,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox x:Name="DialogVentilationTxtBox" HorizontalAlignment="Left" Margin="2,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" TextChanged="DialogVentilationTxtBox_TextChanged" Grid.Column="1"/>
+        <Label x:Name="DialogVentilationLbl" Content="Ventilação (%)" HorizontalAlignment="Left" Margin="99,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="DialogHumidityTxtBox" HorizontalAlignment="Left" Margin="104,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogHumidityTxtBox_TextChanged"/>
+        <Label x:Name="DialogHumidityLbl" Content="Humidade (%)" HorizontalAlignment="Left" Margin="100,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="DialogDurationTxtBox" HorizontalAlignment="Left" Margin="204,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogDurationTxtBox_TextChanged"/>
+        <Label x:Name="DialogDurationLbl" Content="Duração (sec)" HorizontalAlignment="Left" Margin="202,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="DialogDescriptionLbl" Grid.Column="1" Content="Descrição:" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center"/>
+        <TextBox x:Name="DialogNameTxtBox" HorizontalAlignment="Left" Margin="0,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Grid.RowSpan="3" Grid.ColumnSpan="2" TextChanged="DialogNameTxtBox_TextChanged"/>
     </Grid>
 </Window>

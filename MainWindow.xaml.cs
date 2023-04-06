@@ -9,7 +9,7 @@ using log4net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+
 using MessageBox = System.Windows.MessageBox;
 using Newtonsoft.Json;
 using System.Collections;
@@ -21,6 +21,11 @@ using log4net.Core;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using ScenariosConfiguration.Models;
+using System.Text.Json.Nodes;
+using Newtonsoft.Json.Linq;
+using Microsoft.Win32;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 namespace ScenariosConfiguration
 {
@@ -30,18 +35,25 @@ namespace ScenariosConfiguration
     public partial class ScenariosMainWindow : Window
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private const string scenarioManagerDirectory = "C:\\Users\\vitor\\Documents\\GitHub\\scenariomanager\\ScenarioManagerApp\\";
-        private const string appSettingsFile = scenarioManagerDirectory + "appsettings.json";
+
+        // Scenarios Engine
+        private const string scenarioManagerDirectory = "C:\\Users\\Vitor\\OneDrive\\Ambiente de Trabalho\\ScenarioManagerApp";
+        private const string appSettingsFile = scenarioManagerDirectory + "\\" + "appsettings.json";
+        private const string scenariosFile = scenarioManagerDirectory + "\\" + "scenarios.json";
+
+        // Scenarios Configuration App
         private const string defaultConfigFile = "scenariosConfiguration.json";
-        private const string scenariosFile = "scenarios.json";
+
         private static List<Scenario> scenarios = new List<Scenario>();
-        private static List<Scenario_Config> scenarios_config = new List<Scenario_Config>();
+        private static List<ScenarioConfig> scenariosConfig = new List<ScenarioConfig>();
         private static string basePath = Directory.GetCurrentDirectory();
-        private static AppSettings appSettings = new AppSettings();
+        private AppSettings appSettings = new AppSettings();
+        private string scenariosConfigFileName = null;
+        private JObject appSettingsJsonObject = null;
 
         public ScenariosMainWindow()
         {
-            _ = log4net.Config.XmlConfigurator.Configure();
+            //_ = log4net.Config.XmlConfigurator.Configure();
 
             // read configuration from file, if it exists
             var configuration = new ConfigurationBuilder().Build();
@@ -50,14 +62,35 @@ namespace ScenariosConfiguration
                 log.Error("Unable to read configuration file - loading default");
             }
 
+            var ci = new CultureInfo("pt-PT");
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
+
+            InitializeComponent();
+
             if (File.Exists(appSettingsFile))
             {
+                log.Info("Appsettings file exists!");
                 try
                 {
-                    using (StreamReader r = new StreamReader(appSettingsFile))
+                    string jsonString = File.ReadAllText(appSettingsFile);
+
+                    appSettingsJsonObject = JObject.Parse(jsonString);
+
+                    // Check if a property exists
+                    if (appSettingsJsonObject["UpdateFrequency"] != null)
                     {
-                        string json = r.ReadToEnd();
-                        appSettings = JsonConvert.DeserializeObject<AppSettings>(json);
+                        appSettings.UpdateFrequency = (int)appSettingsJsonObject["UpdateFrequency"];
+                    }
+
+                    if (appSettingsJsonObject["Watchdog"] != null)
+                    {
+                        var watchdog = appSettingsJsonObject["Watchdog"];
+                        JToken token = appSettingsJsonObject["Watchdog"]["UpdateTime"];
+                        if (token.Type == JTokenType.Integer)
+                        {
+                            appSettings.WatchDog.UpdateTime = (int)token;
+                        }
                     }
                 }
                 catch (Exception e)
@@ -66,34 +99,31 @@ namespace ScenariosConfiguration
                     log.Error("Unable to read appSettings file!");
                 }
             }
+            else
+            {
+                log.Error("Appsettings file does not exist!");
+            }
 
-            scenarios = GetConfiguration(scenariosFile);
+            scenarios = GetScenarios(scenariosFile);
             if (scenarios == null)
             {
                 log.Error("Didn't find any scenarios!");
             }
             else
             {
-                log.InfoFormat("Loaded {0} Scenarios from configuration", scenarios.Count);
+                log.InfoFormat("Loaded {0} Scenarios from engine", scenarios.Count);
             }
 
-            scenarios_config = GetScenariosConfiguration(defaultConfigFile);
-            if (scenarios == null)
+            scenariosConfig = GetScenariosConfiguration(defaultConfigFile);
+            if (scenariosConfig == null)
             {
                 log.Error("Didn't find any scenarios config!");
             }
             else
             {
-                ScenarioPathTxtBox.Text = basePath + defaultConfigFile;
-                log.InfoFormat("Loaded {0} Scenarios from configuration", scenarios.Count);
+                ScenarioPathTxtBox.Text = defaultConfigFile;
+                log.InfoFormat("Loaded {0} Scenarios from configuration", scenariosConfig.Count);
             }
-
-
-            var ci = new CultureInfo("pt-PT");
-            Thread.CurrentThread.CurrentCulture = ci;
-            Thread.CurrentThread.CurrentUICulture = ci;
-
-            InitializeComponent();
 
             ScenariosListBox.ItemsSource = ToListScenarios();
         }
@@ -102,7 +132,7 @@ namespace ScenariosConfiguration
         {
             var list = new List<string>();
 
-            foreach (var scenario in scenarios_config)
+            foreach (var scenario in scenariosConfig)
             {
                 list.Add(scenario.Name);
             }
@@ -110,13 +140,14 @@ namespace ScenariosConfiguration
             return list;
         }
 
-        private static List<Scenario> GetConfiguration(string configurationFile)
+        private static List<Scenario> GetScenarios(string configurationFile)
         {
             var scenarios = new List<Scenario>();
 
             // read configuration from file, if it exists
             if (File.Exists(configurationFile))
             {
+                log.Info("Configuration file exists!");
                 try
                 {
                     using (StreamReader r = new StreamReader(configurationFile))
@@ -131,23 +162,28 @@ namespace ScenariosConfiguration
                     log.Error("Unable to read scenarios configuration file");
                 }
             }
+            else
+            {
+                log.Error("Configuration file does not exist!");
+            }
 
             return scenarios;
         }
 
-        private static List<Scenario_Config> GetScenariosConfiguration(string configurationFile)
+        private static List<ScenarioConfig> GetScenariosConfiguration(string configurationFile)
         {
-            var scenarios = new List<Scenario_Config>();
+            var scenariosConfig = new List<ScenarioConfig>();
 
             // read configuration from file, if it exists
             if (File.Exists(configurationFile))
             {
+                log.Info("Scenarios configuration file exists!");
                 try
                 {
                     using (StreamReader r = new StreamReader(configurationFile))
                     {
                         string json = r.ReadToEnd();
-                        scenarios = JsonConvert.DeserializeObject<List<Scenario_Config>>(json);
+                        scenariosConfig = JsonConvert.DeserializeObject<List<ScenarioConfig>>(json);
                     }
                 }
                 catch (Exception e)
@@ -156,8 +192,41 @@ namespace ScenariosConfiguration
                     log.Error("Unable to read scenarios configuration file");
                 }
             }
+            else
+            {
+                log.Info("Scenarios configuration file does not exist! Will create default one.");
+                scenariosConfig = new List<ScenarioConfig> { };
+                foreach (var scenario in scenarios)
+                {
+                    var recipees = new List<Recipe>();
+                    recipees.Add(new Recipe
+                    {
+                        Id = 1,
+                        Name = "Recipe 1",
+                        Description = "Default recipe",
+                        Stages = scenario.Stages
+                    });
 
-            return scenarios;
+                    scenariosConfig.Add(
+                        new ScenarioConfig()
+                        {
+                            Id = scenario.Id,
+                            Name = scenario.Name,
+                            Description = scenario.Description,
+                            StatusDatapointId = scenario.StatusDatapointId,
+                            EngineStateDatapointId = scenario.EngineStateDatapointId,
+                            TimerDatapointId = scenario.TimerDatapointId,
+                            CurrentStageDatapointId = scenario.CurrentStageDatapointId,
+                            FinalStatus = scenario.FinalStatus,
+                            Datapoints = scenario.Datapoints,
+                            Recipees = recipees.ToArray(),
+                        }
+                    );
+                }
+
+            }
+
+            return scenariosConfig;
         }
 
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
@@ -171,10 +240,41 @@ namespace ScenariosConfiguration
             serializer.NullValueHandling = NullValueHandling.Ignore;
             serializer.Formatting = Formatting.Indented;
 
+            using (StreamWriter sw = new StreamWriter(defaultConfigFile))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, scenariosConfig);
+            }
+        }
+
+        private void SaveConfigToEngine()
+        {
+            //TODO: save both the scenarios and appSettings to the respective json files so engine can execute
+
+            for (int idx = 0; idx < scenariosConfig.Count; idx++)
+            {
+                scenarios[idx].Name = scenariosConfig[idx].Name;
+                scenarios[idx].Description = scenariosConfig[idx].Description;
+                scenarios[idx].Stages = scenariosConfig[idx].Recipees[scenariosConfig[idx].ActiveRecipe].Stages;
+            }
+
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.NullValueHandling = NullValueHandling.Ignore;
+            serializer.Formatting = Formatting.Indented;
+
+            using (StreamWriter sw = new StreamWriter(scenariosFile))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, scenarios);
+            }
+
+            appSettingsJsonObject["UpdateFrequency"] = appSettings.UpdateFrequency;
+            appSettingsJsonObject["Watchdog"]["UpdateTime"] = appSettings.WatchDog.UpdateTime;
+
             using (StreamWriter sw = new StreamWriter(appSettingsFile))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
-                serializer.Serialize(writer, scenarios_config);
+                serializer.Serialize(writer, appSettingsJsonObject);
             }
         }
 
@@ -185,24 +285,7 @@ namespace ScenariosConfiguration
 
         private void CloseApplication()
         {
-            PersistConfiguration();
-
             System.Windows.Application.Current.Shutdown();
-        }
-
-        private void RemoveScenarioButton_Click(object sender, RoutedEventArgs e)
-        {
-            // validate if any scenario has been selected
-            if (ScenariosListBox.SelectedIndex < 0) return;
-
-            if (scenarios_config.Remove(scenarios_config[ScenariosListBox.SelectedIndex]))
-            {
-                log.InfoFormat("Scenario index {0} successfully removed!", ScenariosListBox.SelectedIndex);
-            }
-            else
-            {
-                log.InfoFormat("Scenario index {0} does not exist!", ScenariosListBox.SelectedIndex);
-            }
         }
 
         private void EditScenarioButton_Click(object sender, RoutedEventArgs e)
@@ -210,42 +293,29 @@ namespace ScenariosConfiguration
             // validate if any scenario has been selected
             if (ScenariosListBox.SelectedIndex < 0) return;
 
-            ScenarioEditWindow scenarioEditWindow = new ScenarioEditWindow(scenarios_config[ScenariosListBox.SelectedIndex]);
+            ScenarioEditWindow scenarioEditWindow = new ScenarioEditWindow(scenariosConfig[ScenariosListBox.SelectedIndex]);
 
-            if (scenarioEditWindow.ShowDialog() == true)
+            if (scenarioEditWindow.ShowDialog() == false && scenarioEditWindow.shouldSave == true)
             {
                 // replace the selected item with the new value
-                scenarios_config[ScenariosListBox.SelectedIndex] = scenarioEditWindow.scenario_temp;
-                ScenariosListBox.ItemsSource = scenarios_config;
+                scenariosConfig[ScenariosListBox.SelectedIndex] = scenarioEditWindow.scenario_temp;
+                ScenariosListBox.ItemsSource = ToListScenarios();
             }
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void AddScenarioBtn_Click(object sender, RoutedEventArgs e)
-        {
-            // validate if any scenario file is loaded
-
-            Scenario_Config new_scenario = new Scenario_Config();
-            var new_index = scenarios_config.Count + 1;
-            new_scenario.Name = "scenario " + new_index.ToString();
-            new_scenario.Id = new_index;
-
-            scenarios_config.Add(new_scenario);
-            log.InfoFormat("Scenario {0} successfully added!", scenarios_config[scenarios_config.Count - 1]);
-            
+            PersistConfiguration();
+            SaveConfigToEngine();
+            CloseApplication();
         }
 
         private void EditEngineConfigBtn_Click(object sender, RoutedEventArgs e)
         {
-            ItemEditConfigDialog itemEditConfigDialog = new ItemEditConfigDialog();
-            if (itemEditConfigDialog.ShowDialog() == true)
+            ItemEditConfigDialog itemEditConfigDialog = new ItemEditConfigDialog(appSettings);
+            if (itemEditConfigDialog.ShowDialog() == false && itemEditConfigDialog.shouldSave == true)
             {
-                // replace the new parameters in the appsettings.json file
-                
+                appSettings = itemEditConfigDialog.appSettings_temp;
             }
         }
 
@@ -256,24 +326,26 @@ namespace ScenariosConfiguration
 
         private void ScenarioPathButton_Click(object sender, RoutedEventArgs e)
         {
-            using var dialog = new FolderBrowserDialog
-            {
-                Description = "SelectDestinationFolder",
-                UseDescriptionForTitle = true,
-                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + Path.DirectorySeparatorChar,
-                ShowNewFolderButton = true
+            // TODO: instead of getting a folder it should be getting a .json file
+            var dialog = new OpenFileDialog() {
+                Filter = "json files (*.json) | *.json;",
+                RestoreDirectory = true,
+                Title = "Selecione o ficheiro de configuração",
+                CheckFileExists = true,
+                CheckPathExists = true
             };
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ScenarioPathTxtBox.Text = dialog.SelectedPath;
-                log.InfoFormat("Folder '{0}' was selected as destination", dialog.SelectedPath);
+                ScenarioPathTxtBox.Text = dialog.FileName;
+                log.InfoFormat("Configuration File '{0}' was selected!", dialog.FileName);
+                MessageBox.Show("Nova configuração carregada!");
             }
         }
 
         private void ScenarioPathTxt_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            scenarios_config = GetScenariosConfiguration(defaultConfigFile);
+            /*scenarios_config = GetScenariosConfiguration(defaultConfigFile);
             if (scenarios == null)
             {
                 log.Error("Didn't find any scenarios config!");
@@ -281,12 +353,23 @@ namespace ScenariosConfiguration
             else
             {
                 log.InfoFormat("Loaded {0} Scenarios from configuration", scenarios.Count);
-            }
+            }*/
         }
 
-        private void NewScenarioFileButton_Click(object sender, RoutedEventArgs e)
+        private void SaveAsButton_Click(object sender, RoutedEventArgs e)
         {
-            scenarios_config = new List<Scenario_Config>();
+            var dialog = new SaveFileDialog()
+            {
+                Filter = "json files (*.json) | *.json;",
+                RestoreDirectory = true,
+                Title = "Guardar o ficheiro de configuração",
+                CheckPathExists = true
+            };
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                log.InfoFormat("Configuration File '{0}' was saved!", dialog.FileName);
+            }
         }
     }
 }
