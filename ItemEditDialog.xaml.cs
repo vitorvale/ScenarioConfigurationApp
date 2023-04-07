@@ -45,7 +45,9 @@ namespace ScenariosConfiguration {
                 else{
                     //DialogHumidityTxtBox.IsEnabled = false;
                 }
-                DialogDurationTxtBox.Text = stageTemp.Duration.ToString();
+
+                var durationMin = stageTemp.Duration / 60;
+                DialogDurationTxtBox.Text = durationMin.ToString();
             }
             
         }
@@ -83,7 +85,8 @@ namespace ScenariosConfiguration {
         {
             if(DialogDurationTxtBox.Text != null && DialogDurationTxtBox.Text.Length > 0)
             {
-                stageTemp.Duration = long.Parse(DialogDurationTxtBox.Text.Trim());
+                var newDurationMin = long.Parse(DialogDurationTxtBox.Text.Trim());
+                stageTemp.Duration = newDurationMin * 60;
             }
         }
 

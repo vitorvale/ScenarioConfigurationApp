@@ -44,13 +44,16 @@ namespace ScenariosConfiguration
 
         // Scenarios Configuration App
         private string defaultConfigFile = "scenariosConfiguration.json";
+        private string defaultUsersFile = "users.json";
 
         private static List<Scenario> scenarios = new List<Scenario>();
         private static List<ScenarioConfig> scenariosConfig = new List<ScenarioConfig>();
+        private List<User> users = new List<User>();
         private static string basePath = Directory.GetCurrentDirectory();
         private AppSettings appSettings = new AppSettings();
         private string scenariosConfigFileName = null;
         private JObject appSettingsJsonObject = null;
+        private User loggedUser = new User();
 
         public ScenariosMainWindow()
         {
@@ -66,6 +69,26 @@ namespace ScenariosConfiguration
             var ci = new CultureInfo("pt-PT");
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
+
+            users = GetUsers(defaultUsersFile);
+            if (users == null)
+            {
+                log.Error("Didn't find any users!");
+                CloseApplication();
+            }
+            else
+            {
+                log.InfoFormat("Loaded {0} users from file", users.Count);
+            }
+
+            LoginWindow loginWindow = new LoginWindow(users);
+            if (loginWindow.ShowDialog() == false)
+            {
+                loggedUser.Password = loginWindow.password;
+                loggedUser.Name = loginWindow.username;
+                loggedUser.Id = loginWindow.loggedUserId;
+                log.Info("Login Successful");
+            }
 
             InitializeComponent();
 
@@ -169,6 +192,36 @@ namespace ScenariosConfiguration
             }
 
             return scenarios;
+        }
+
+        private static List<User> GetUsers(string UsersFile)
+        {
+            var users = new List<User>();
+
+            // read configuration from file, if it exists
+            if (File.Exists(UsersFile))
+            {
+                log.Info("Configuration file exists!");
+                try
+                {
+                    using (StreamReader r = new StreamReader(UsersFile))
+                    {
+                        string json = r.ReadToEnd();
+                        users = JsonConvert.DeserializeObject<List<User>>(json);
+                    }
+                }
+                catch (Exception e)
+                {
+                    log.Error(e.ToString());
+                    log.Error("Unable to read users from file");
+                }
+            }
+            else
+            {
+                log.Error("Users file does not exist!");
+            }
+
+            return users;
         }
 
         private static List<ScenarioConfig> GetScenariosConfiguration(string configurationFile)
