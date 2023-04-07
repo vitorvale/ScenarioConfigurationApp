@@ -26,6 +26,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Win32;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace ScenariosConfiguration
 {
@@ -42,7 +43,7 @@ namespace ScenariosConfiguration
         private const string scenariosFile = scenarioManagerDirectory + "\\" + "scenarios.json";
 
         // Scenarios Configuration App
-        private const string defaultConfigFile = "scenariosConfiguration.json";
+        private string defaultConfigFile = "scenariosConfiguration.json";
 
         private static List<Scenario> scenarios = new List<Scenario>();
         private static List<ScenarioConfig> scenariosConfig = new List<ScenarioConfig>();
@@ -234,13 +235,13 @@ namespace ScenariosConfiguration
             CloseApplication();
         }
 
-        private void PersistConfiguration()
+        private void PersistConfiguration(string filePath)
         {
             JsonSerializer serializer = new JsonSerializer();
             serializer.NullValueHandling = NullValueHandling.Ignore;
             serializer.Formatting = Formatting.Indented;
 
-            using (StreamWriter sw = new StreamWriter(defaultConfigFile))
+            using (StreamWriter sw = new StreamWriter(filePath))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, scenariosConfig);
@@ -249,7 +250,7 @@ namespace ScenariosConfiguration
 
         private void SaveConfigToEngine()
         {
-            //TODO: save both the scenarios and appSettings to the respective json files so engine can execute
+            //save both the scenarios and appSettings to the respective json files so engine can execute
 
             for (int idx = 0; idx < scenariosConfig.Count; idx++)
             {
@@ -305,9 +306,9 @@ namespace ScenariosConfiguration
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            PersistConfiguration();
+            PersistConfiguration(defaultConfigFile);
             SaveConfigToEngine();
-            CloseApplication();
+            MessageBox.Show("Configuração guardada!");
         }
 
         private void EditEngineConfigBtn_Click(object sender, RoutedEventArgs e)
@@ -339,7 +340,18 @@ namespace ScenariosConfiguration
             {
                 ScenarioPathTxtBox.Text = dialog.FileName;
                 log.InfoFormat("Configuration File '{0}' was selected!", dialog.FileName);
-                MessageBox.Show("Nova configuração carregada!");
+                defaultConfigFile = dialog.FileName;
+                scenariosConfig = GetScenariosConfiguration(defaultConfigFile);
+                if (scenarios == null)
+                {
+                    log.Error("Didn't find any scenarios config!");
+                }
+                else
+                {
+                    log.InfoFormat("Loaded {0} Scenarios from configuration", scenarios.Count);
+                    ScenarioPathTxtBox.Text = defaultConfigFile;
+                    MessageBox.Show("Nova configuração carregada!");
+                }
             }
         }
 
@@ -369,6 +381,8 @@ namespace ScenariosConfiguration
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 log.InfoFormat("Configuration File '{0}' was saved!", dialog.FileName);
+                PersistConfiguration(dialog.FileName);
+                SaveConfigToEngine();
             }
         }
     }

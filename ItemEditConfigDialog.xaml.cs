@@ -67,6 +67,7 @@ namespace ScenariosConfiguration
         {
             shouldSave = true;
             Close();
+            //MessageBox.Show("Configuração do motor guardada!");
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)

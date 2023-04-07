@@ -96,6 +96,7 @@ namespace ScenariosConfiguration
         {
             shouldSave = true;
             Close();
+            //MessageBox.Show("Receita guardada!");
         }
 
         private void AddStageButton_Click(object sender, RoutedEventArgs e)

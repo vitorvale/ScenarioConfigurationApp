@@ -71,6 +71,7 @@ namespace ScenariosConfiguration {
         {
             shouldSave = true;
             Close();
+            //MessageBox.Show("Estágio guardado!");
         }
 
         private void DialogCancelButton_Click(object sender, RoutedEventArgs e)

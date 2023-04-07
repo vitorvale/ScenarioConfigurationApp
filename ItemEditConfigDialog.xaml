@@ -6,26 +6,15 @@
         xmlns:local="clr-namespace:ScenariosConfiguration"
         mc:Ignorable="d"
         Title="Configuração do Motor" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
-        ContentRendered="Window_ContentRendered" Height="159" Width="566" ResizeMode="CanMinimize">
-    <Grid Margin="4,22,10,8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="86*" />
-            <ColumnDefinition Width="353*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" MinHeight="108" />
-        </Grid.RowDefinitions>
-
-        <WrapPanel Grid.Row="2" Margin="285,0,0,0" Grid.Column="2" VerticalAlignment="Bottom">
+        ContentRendered="Window_ContentRendered" Height="243" Width="623" ResizeMode="CanMinimize">
+    <Grid Margin="4,22,10,5">
+        <WrapPanel VerticalAlignment="Top" Margin="440,160,0,10">
             <Button x:Name="DialogCloseButton" IsCancel="True" MinWidth="60" Height="24" Width="70" Content="_Cancelar" Click="DialogCloseButton_Click" Margin="0,0,10,0"/>
-            <Button IsDefault="True" x:Name="DialogSaveBtn" Click="DialogSaveBtn_Click" MinWidth="60" Height="24" Width="70" Content="_Guardar"/>
+            <Button IsDefault="True" x:Name="DialogSaveBtn" Click="DialogSaveBtn_Click" MinWidth="60" Height="24" Width="70" Content="_Ok"/>
         </WrapPanel>
-        <Label x:Name="DialogUpdateFrequencyLbl" Content="Frequência de atualização do temporizador (segundos)" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" FontSize="8" Margin="10,5,0,0" Grid.ColumnSpan="3" FontWeight="Bold" Height="21" Width="216"/>
-        <TextBox x:Name="DialogUpdateFrequencyTxtBox" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,26,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="DialogUpdateFrequencyTxtBox_TextChanged" Height="18"/>
-        <Label x:Name="DialogPingFrequencyLbl" Content="Frequência de resposta do motor (segundos)" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" FontSize="8" Margin="222,5,0,0" Grid.Column="2" FontWeight="Bold" Height="21" Width="178"/>
-        <TextBox x:Name="DialogPingFrequencyTxtBox" Margin="222,26,6,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="2" TextChanged="DialogPingFrequencyTxtBox_TextChanged" Height="18"/>
+        <Label x:Name="DialogUpdateFrequencyLbl" Content="Frequência de atualização do temporizador (segundos)" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="314" Margin="10,0,0,0"/>
+        <TextBox x:Name="DialogUpdateFrequencyTxtBox" HorizontalAlignment="Left" Margin="15,30,0,0" VerticalAlignment="Top" Width="300" TextChanged="DialogUpdateFrequencyTxtBox_TextChanged" Height="20" MaxLines="1"/>
+        <Label x:Name="DialogPingFrequencyLbl" Content="Frequência de resposta do motor (segundos)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,0,0" Height="26" Width="295"/>
+        <TextBox x:Name="DialogPingFrequencyTxtBox" Margin="15,90,0,0" VerticalAlignment="Top" TextChanged="DialogPingFrequencyTxtBox_TextChanged" Height="20" HorizontalAlignment="Left" Width="300" MaxLines="1"/>
     </Grid>
 </Window>

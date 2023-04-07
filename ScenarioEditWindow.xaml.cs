@@ -149,6 +149,7 @@ namespace ScenariosConfiguration
         {
             shouldSave = true;
             Close();
+            //MessageBox.Show("Cenário guardado!");
         }
 
         private void AddRecipeButton_Click(object sender, RoutedEventArgs e)
