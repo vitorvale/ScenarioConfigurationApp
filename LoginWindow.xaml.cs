@@ -54,9 +54,9 @@ namespace ScenariosConfiguration
             username = UserNameTxtBox.Text;
         }
 
-        private void PasswordTxtBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void PasswordBox_Changed(object sender, RoutedEventArgs e)
         {
-            password = PasswordTxtBox.Text;
+            password = PasswordBox.Password;
         }
     }
 }

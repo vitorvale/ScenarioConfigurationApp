@@ -27,6 +27,6 @@
         <Button x:Name="RemoveRecipeButton" Content="Remover" HorizontalAlignment="Left" Margin="326,247,0,0" VerticalAlignment="Top" Width="81" Height="25" Click="RemoveRecipeButton_Click"/>
         <Button x:Name="EditRecipeButton" Content="Editar" HorizontalAlignment="Left" Margin="326,288,0,0" VerticalAlignment="Top" Width="81" Height="25" Click="EditRecipeButtonClick"/>
         <ComboBox x:Name="ActiveRecipeComboBox" HorizontalAlignment="Left" Margin="21,106,0,0" VerticalAlignment="Top" Width="135" SelectionChanged="ActiveRecipeComboBox_SelectionChanged" Height="24"/>
-        <Label x:Name="ActiveRecipeLbl" Content="Receita Ativa" HorizontalAlignment="Left" Margin="21,77,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="ActiveRecipeLbl" Content="Receita Ativa:" HorizontalAlignment="Left" Margin="21,77,0,0" VerticalAlignment="Top" FontSize="14"/>
     </Grid>
 </Window>

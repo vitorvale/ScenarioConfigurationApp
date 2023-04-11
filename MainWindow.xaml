@@ -28,5 +28,6 @@
         <TextBox x:Name="ScenarioPathTxtBox" HorizontalAlignment="Center" Margin="0,77,0,0" VerticalAlignment="Top" Width="487" TextChanged="ScenarioPathTxt_Changed" Height="22" MaxLines="1" IsReadOnly="True" IsUndoEnabled="False"/>
         <Label x:Name="ScenarioPathLbl" Content="Ficheiro de Cenários:" HorizontalAlignment="Left" Margin="11,75,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="ScenarioPathButton" Content="Selecionar Ficheiro" HorizontalAlignment="Right" Margin="0,77,19,0" VerticalAlignment="Top" Width="105" FontSize="10" Click="ScenarioPathButton_Click" Height="22"/>
+        <Button x:Name="EditPasswordBtn" Content="Mudar Palavra-passe" HorizontalAlignment="Left" Margin="12,334,0,0" VerticalAlignment="Top" Height="27" Width="119" Click="EditPasswordBtn_Click"/>
     </Grid>
 </Window>

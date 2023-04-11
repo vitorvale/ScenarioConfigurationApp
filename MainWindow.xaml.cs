@@ -299,6 +299,12 @@ namespace ScenariosConfiguration
             {
                 serializer.Serialize(writer, scenariosConfig);
             }
+
+            using (StreamWriter sw = new StreamWriter(defaultUsersFile))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, users);
+            }
         }
 
         private void SaveConfigToEngine()
@@ -436,6 +442,28 @@ namespace ScenariosConfiguration
                 log.InfoFormat("Configuration File '{0}' was saved!", dialog.FileName);
                 PersistConfiguration(dialog.FileName);
                 SaveConfigToEngine();
+            }
+        }
+
+        private void EditPasswordBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePasswordWindow changePasswordWindow = new ChangePasswordWindow(loggedUser);
+            if (changePasswordWindow.ShowDialog() == false && changePasswordWindow.shouldSave == true)
+            {
+                loggedUser.Password = changePasswordWindow.newPassword;
+                SaveUserPassword(loggedUser);
+            }
+        }
+
+
+        private void SaveUserPassword(User loggedUser)
+        {
+            foreach(var user in users)
+            {
+                if (loggedUser.Id.Equals(user.Id) && loggedUser.Name.Equals(user.Name))
+                {
+                    user.Password = loggedUser.Password;
+                }
             }
         }
     }
