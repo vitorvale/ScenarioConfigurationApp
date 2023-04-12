@@ -179,6 +179,11 @@ namespace ScenariosConfiguration
             RecipeesListBox.ItemsSource = ToListRecipees();
             recipe_names = ToListRecipeNames();
             ActiveRecipeComboBox.ItemsSource = recipe_names;
+
+            if (ActiveRecipeComboBox.SelectedIndex == -1) //set to the first recipe by default
+            {
+                ActiveRecipeComboBox.SelectedIndex = 0;
+            }
         }
 
         private void RemoveRecipeButton_Click(object sender, RoutedEventArgs e)
@@ -196,6 +201,11 @@ namespace ScenariosConfiguration
                 RecipeesListBox.ItemsSource = ToListRecipees();
                 recipe_names = ToListRecipeNames();
                 ActiveRecipeComboBox.ItemsSource = recipe_names;
+
+                if (ActiveRecipeComboBox.SelectedIndex == -1) //set to the first recipe by default if the one selected is removed
+                {
+                    ActiveRecipeComboBox.SelectedIndex = 0;
+                }
             }
             else
             {
