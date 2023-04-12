@@ -18,7 +18,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label x:Name="DialogNameLbl" Margin="0,0,336,107" Content="Nome" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+        <Label x:Name="DialogNameLbl" Margin="-5,0,336,107" Content="Nome" Grid.ColumnSpan="2" Grid.RowSpan="3" HorizontalAlignment="Left"/>
         <TextBox x:Name="DialogDescriptionTxtBox" MinWidth="250" Height="17" VerticalAlignment="Top" HorizontalAlignment="Left" Width="251" Grid.Column="1" Margin="32,25,0,0" TextChanged="DialogDescriptionTxtBox_TextChanged" Grid.RowSpan="3"/>
 
         <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,106,-6,-23" Grid.Column="1">
@@ -26,14 +26,14 @@
             <Button IsDefault="True" x:Name="DialogSaveBtn" Click="DialogSaveBtn_Click" MinWidth="60" Margin="0,0,0,0" Height="24" Width="70" Content="_Ok"/>
         </WrapPanel>
         <TextBox x:Name="DialogTemperatureTxtBox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="0,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" TextChanged="DialogTemperatureTxtBox_TextChanged"/>
-        <Label x:Name="DialogTemperatureLbl" Content="Temperatura (Cº)" HorizontalAlignment="Center" Margin="0,35,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label x:Name="DialogTemperatureLbl" Content="Temperatura (Cº)" HorizontalAlignment="Left" Margin="-5,35,0,0" Grid.Row="2" VerticalAlignment="Top"/>
         <TextBox x:Name="DialogVentilationTxtBox" HorizontalAlignment="Left" Margin="2,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" TextChanged="DialogVentilationTxtBox_TextChanged" Grid.Column="1"/>
-        <Label x:Name="DialogVentilationLbl" Content="Ventilação (%)" HorizontalAlignment="Left" Margin="2,35,0,0" Grid.Row="2" VerticalAlignment="Top" Height="24" Width="84" Grid.Column="1"/>
+        <Label x:Name="DialogVentilationLbl" Content="Ventilação (%)" HorizontalAlignment="Left" Margin="-3,35,0,0" Grid.Row="2" VerticalAlignment="Top" Height="24" Width="84" Grid.Column="1"/>
         <TextBox x:Name="DialogHumidityTxtBox" HorizontalAlignment="Left" Margin="104,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogHumidityTxtBox_TextChanged"/>
-        <Label x:Name="DialogHumidityLbl" Content="Humidade (%)" HorizontalAlignment="Center" Margin="0,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1" Height="24" Width="85"/>
+        <Label x:Name="DialogHumidityLbl" Content="Humidade (%)" HorizontalAlignment="Left" Margin="99,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1" Height="24" Width="85"/>
         <TextBox x:Name="DialogDurationTxtBox" HorizontalAlignment="Left" Margin="204,59,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="79" Grid.Column="1" TextChanged="DialogDurationTxtBox_TextChanged"/>
-        <Label x:Name="DialogDurationLbl" Content="Duração (min)" HorizontalAlignment="Left" Margin="204,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1" Height="24" Width="88"/>
-        <Label x:Name="DialogDescriptionLbl" Grid.Column="1" Content="Descrição" HorizontalAlignment="Left" Margin="32,0,0,0" VerticalAlignment="Center"/>
+        <Label x:Name="DialogDurationLbl" Content="Duração (min)" HorizontalAlignment="Left" Margin="199,35,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1" Height="24" Width="88"/>
+        <Label x:Name="DialogDescriptionLbl" Grid.Column="1" Content="Descrição" HorizontalAlignment="Left" Margin="26,0,0,0" VerticalAlignment="Center" Width="60"/>
         <TextBox x:Name="DialogNameTxtBox" HorizontalAlignment="Left" Margin="0,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" Grid.RowSpan="3" Grid.ColumnSpan="2" TextChanged="DialogNameTxtBox_TextChanged"/>
     </Grid>
 </Window>

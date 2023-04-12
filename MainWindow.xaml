@@ -16,7 +16,8 @@
             <Button x:Name="SaveBtn" Content="Guardar" Click="SaveBtn_Click" Height="24" IsDefault="True" Width="70" HorizontalAlignment="Right"/>
 
         </WrapPanel>
-        <Label x:Name="ScenariosLbl" Content="Cenários" ContentStringFormat="{}{0}:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71" Height="24" HorizontalContentAlignment="Left" Padding="5,5,5,3" VerticalContentAlignment="Center" Margin="12,139,0,0"/>
+        <Label x:Name="ScenariosLbl" Content="Cenários" ContentStringFormat="{}{0}:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71" Height="24"
+               Padding="5,5,5,3" VerticalContentAlignment="Center" Margin="6,139,0,0"/>
         <ListBox x:Name="ScenariosListBox" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="11,163,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="310" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="ScenariosListBox_SelectionChanged">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -26,7 +27,7 @@
         </ListBox>
         <Button x:Name="EditScenarioButton" Content="Editar" HorizontalAlignment="Center" VerticalAlignment="Top" Height="24" Width="88" Click="EditScenarioButton_Click" Margin="0,163,0,0"/>
         <TextBox x:Name="ScenarioPathTxtBox" HorizontalAlignment="Center" Margin="0,77,0,0" VerticalAlignment="Top" Width="487" TextChanged="ScenarioPathTxt_Changed" Height="22" MaxLines="1" IsReadOnly="True" IsUndoEnabled="False"/>
-        <Label x:Name="ScenarioPathLbl" Content="Ficheiro de Cenários:" HorizontalAlignment="Left" Margin="11,75,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="ScenarioPathLbl" Content="Ficheiro de Cenários:" HorizontalAlignment="Left" Margin="6,75,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="ScenarioPathButton" Content="Selecionar Ficheiro" HorizontalAlignment="Right" Margin="0,77,19,0" VerticalAlignment="Top" Width="105" FontSize="10" Click="ScenarioPathButton_Click" Height="22"/>
         <Button x:Name="EditPasswordBtn" Content="Mudar Palavra-passe" HorizontalAlignment="Left" Margin="12,334,0,0" VerticalAlignment="Top" Height="27" Width="119" Click="EditPasswordBtn_Click"/>
     </Grid>

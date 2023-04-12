@@ -27,6 +27,8 @@ using Microsoft.Win32;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace ScenariosConfiguration
 {
@@ -38,13 +40,14 @@ namespace ScenariosConfiguration
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         // Scenarios Engine
-        private const string scenarioManagerDirectory = "C:\\Users\\vitor\\Desktop\\Sauter\\Test\\win-x64";
-        private const string appSettingsFile = scenarioManagerDirectory + "\\" + "appsettings.json";
-        private const string scenariosFile = scenarioManagerDirectory + "\\" + "scenarios.json";
+        private string scenarioManagerDirectory = string.Empty;
+        private string engineAppSettingsFile = string.Empty;
+        private string engineScenariosFile = string.Empty;
 
         // Scenarios Configuration App
         private string defaultConfigFile = "scenariosConfiguration.json";
-        private string defaultUsersFile = "users.json";
+        private string defaultAppSettingsFile = "appsettings.json";
+        private string defaultDatFile = "scenarioConfigurationApp.dat";
 
         private static List<Scenario> scenarios = new List<Scenario>();
         private static List<ScenarioConfig> scenariosConfig = new List<ScenarioConfig>();
@@ -53,7 +56,11 @@ namespace ScenariosConfiguration
         private AppSettings appSettings = new AppSettings();
         private string scenariosConfigFileName = null;
         private JObject appSettingsJsonObject = null;
+        private JObject engineAppSettingsJsonObject = null;
         private User loggedUser = new User();
+        private string usersDecryptedFile = string.Empty;
+        private string passwordDecryptedFile = string.Empty;
+        private static string defaultEncryptingPassword = "password123";
 
         public ScenariosMainWindow()
         {
@@ -70,51 +77,18 @@ namespace ScenariosConfiguration
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
 
-            users = GetUsers(defaultUsersFile);
-            if (users == null)
-            {
-                log.Error("Didn't find any users!");
-                CloseApplication();
-            }
-            else
-            {
-                log.InfoFormat("Loaded {0} users from file", users.Count);
-            }
-
-            LoginWindow loginWindow = new LoginWindow(users);
-            if (loginWindow.ShowDialog() == false)
-            {
-                loggedUser.Password = loginWindow.password;
-                loggedUser.Name = loginWindow.username;
-                loggedUser.Id = loginWindow.loggedUserId;
-                log.Info("Login Successful");
-            }
-
-            InitializeComponent();
-
-            if (File.Exists(appSettingsFile))
+            if (File.Exists(defaultAppSettingsFile))
             {
                 log.Info("Appsettings file exists!");
                 try
                 {
-                    string jsonString = File.ReadAllText(appSettingsFile);
+                    string jsonString = File.ReadAllText(defaultAppSettingsFile);
 
                     appSettingsJsonObject = JObject.Parse(jsonString);
 
-                    // Check if a property exists
-                    if (appSettingsJsonObject["UpdateFrequency"] != null)
+                    if (appSettingsJsonObject["scenarioManagerDirectory"] != null)
                     {
-                        appSettings.UpdateFrequency = (int)appSettingsJsonObject["UpdateFrequency"];
-                    }
-
-                    if (appSettingsJsonObject["Watchdog"] != null)
-                    {
-                        var watchdog = appSettingsJsonObject["Watchdog"];
-                        JToken token = appSettingsJsonObject["Watchdog"]["UpdateTime"];
-                        if (token.Type == JTokenType.Integer)
-                        {
-                            appSettings.WatchDog.UpdateTime = (int)token;
-                        }
+                        scenarioManagerDirectory = (string)appSettingsJsonObject["scenarioManagerDirectory"];
                     }
                 }
                 catch (Exception e)
@@ -128,7 +102,68 @@ namespace ScenariosConfiguration
                 log.Error("Appsettings file does not exist!");
             }
 
-            scenarios = GetScenarios(scenariosFile);
+            engineAppSettingsFile = scenarioManagerDirectory + "\\" + "appsettings.json";
+            engineScenariosFile = scenarioManagerDirectory + "\\" + "scenarios.json";
+
+            usersDecryptedFile = DecryptJsonFile(defaultDatFile);
+            if (usersDecryptedFile != null)
+            {
+                users = GetUsers(usersDecryptedFile);
+                log.InfoFormat("Loaded {0} users from file", users.Count);
+            }
+            else
+            {
+                log.Error("Users encrypted file does not exist, creating new one!");
+            }
+
+            LoginWindow loginWindow = new LoginWindow(users);
+            if (loginWindow.ShowDialog() == false)
+            {
+                loggedUser.Password = loginWindow.password;
+                loggedUser.Name = loginWindow.username;
+                loggedUser.Id = loginWindow.loggedUserId;
+                log.Info("Login Successful");
+            }
+
+            InitializeComponent();
+
+            if (File.Exists(engineAppSettingsFile))
+            {
+                log.Info("Engine Appsettings file exists!");
+                try
+                {
+                    string jsonString = File.ReadAllText(engineAppSettingsFile);
+
+                    engineAppSettingsJsonObject = JObject.Parse(jsonString);
+
+                    // Check if a property exists
+                    if (engineAppSettingsJsonObject["UpdateFrequency"] != null)
+                    {
+                        appSettings.UpdateFrequency = (int)engineAppSettingsJsonObject["UpdateFrequency"];
+                    }
+
+                    if (engineAppSettingsJsonObject["Watchdog"] != null)
+                    {
+                        var watchdog = engineAppSettingsJsonObject["Watchdog"];
+                        JToken token = engineAppSettingsJsonObject["Watchdog"]["UpdateTime"];
+                        if (token.Type == JTokenType.Integer)
+                        {
+                            appSettings.WatchDog.UpdateTime = (int)token;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    log.Error(e.ToString());
+                    log.Error("Unable to read Engine appSettings file!");
+                }
+            }
+            else
+            {
+                log.Error("Engine Appsettings file does not exist!");
+            }
+
+            scenarios = GetScenarios(engineScenariosFile);
             if (scenarios == null)
             {
                 log.Error("Didn't find any scenarios!");
@@ -199,26 +234,23 @@ namespace ScenariosConfiguration
             var users = new List<User>();
 
             // read configuration from file, if it exists
-            if (File.Exists(UsersFile))
+
+            try
             {
-                log.Info("Configuration file exists!");
-                try
+                users = JsonConvert.DeserializeObject<List<User>>(UsersFile);
+                log.Info("users file deserialized!");
+
+
+                /*using (StreamReader r = new StreamReader(UsersFile))
                 {
-                    using (StreamReader r = new StreamReader(UsersFile))
-                    {
-                        string json = r.ReadToEnd();
-                        users = JsonConvert.DeserializeObject<List<User>>(json);
-                    }
-                }
-                catch (Exception e)
-                {
-                    log.Error(e.ToString());
-                    log.Error("Unable to read users from file");
-                }
+                    string json = r.ReadToEnd();
+                    users = JsonConvert.DeserializeObject<List<User>>(json);
+                }*/
             }
-            else
+            catch (Exception e)
             {
-                log.Error("Users file does not exist!");
+                log.Error(e.ToString());
+                log.Error("Unable to read users from file");
             }
 
             return users;
@@ -252,14 +284,16 @@ namespace ScenariosConfiguration
                 scenariosConfig = new List<ScenarioConfig> { };
                 foreach (var scenario in scenarios)
                 {
-                    var recipees = new List<Recipe>();
-                    recipees.Add(new Recipe
+                    var recipees = new List<Recipe>
                     {
-                        Id = 1,
-                        Name = "Recipe 1",
-                        Description = "Default recipe",
-                        Stages = scenario.Stages
-                    });
+                        new Recipe
+                        {
+                            Id = 1,
+                            Name = "Recipe 1",
+                            Description = "Default recipe",
+                            Stages = scenario.Stages,
+                        }
+                    };
 
                     scenariosConfig.Add(
                         new ScenarioConfig()
@@ -272,6 +306,7 @@ namespace ScenariosConfiguration
                             TimerDatapointId = scenario.TimerDatapointId,
                             CurrentStageDatapointId = scenario.CurrentStageDatapointId,
                             FinalStatus = scenario.FinalStatus,
+                            ActiveRecipe = 0,
                             Datapoints = scenario.Datapoints,
                             Recipees = recipees.ToArray(),
                         }
@@ -300,11 +335,7 @@ namespace ScenariosConfiguration
                 serializer.Serialize(writer, scenariosConfig);
             }
 
-            using (StreamWriter sw = new StreamWriter(defaultUsersFile))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, users);
-            }
+            EncryptJsonFile(defaultDatFile);
         }
 
         private void SaveConfigToEngine()
@@ -326,19 +357,19 @@ namespace ScenariosConfiguration
             serializer.NullValueHandling = NullValueHandling.Ignore;
             serializer.Formatting = Formatting.Indented;
 
-            using (StreamWriter sw = new StreamWriter(scenariosFile))
+            using (StreamWriter sw = new StreamWriter(engineScenariosFile))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, scenarios);
             }
 
-            appSettingsJsonObject["UpdateFrequency"] = appSettings.UpdateFrequency;
-            appSettingsJsonObject["Watchdog"]["UpdateTime"] = appSettings.WatchDog.UpdateTime;
+            engineAppSettingsJsonObject["UpdateFrequency"] = appSettings.UpdateFrequency;
+            engineAppSettingsJsonObject["Watchdog"]["UpdateTime"] = appSettings.WatchDog.UpdateTime;
 
-            using (StreamWriter sw = new StreamWriter(appSettingsFile))
+            using (StreamWriter sw = new StreamWriter(engineAppSettingsFile))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
-                serializer.Serialize(writer, appSettingsJsonObject);
+                serializer.Serialize(writer, engineAppSettingsJsonObject);
             }
         }
 
@@ -467,6 +498,93 @@ namespace ScenariosConfiguration
                 if (loggedUser.Id.Equals(user.Id) && loggedUser.Name.Equals(user.Name))
                 {
                     user.Password = loggedUser.Password;
+                }
+            }
+        }
+
+        private string DecryptJsonFile(string encryptedFilePath)
+        {
+
+            if (File.Exists(encryptedFilePath))
+            {
+                log.Info("Users encrypted file exists!");
+
+                byte[] encryptedData = File.ReadAllBytes(encryptedFilePath);
+
+                byte[] salt = encryptedData.Take(16).ToArray();
+                byte[] cipherData = encryptedData.Skip(16).ToArray();
+
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(defaultEncryptingPassword, salt, 100000);
+
+                byte[] key = pdb.GetBytes(32);
+                byte[] iv = pdb.GetBytes(16);
+
+                using (Aes aesAlg = Aes.Create())
+                {
+                    aesAlg.Key = key;
+                    aesAlg.IV = iv;
+
+                    using (MemoryStream msDecrypt = new MemoryStream(cipherData))
+                    {
+                        using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, aesAlg.CreateDecryptor(), CryptoStreamMode.Read))
+                        {
+                            using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                            {
+                                return srDecrypt.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                users = new List<User>()
+                {
+                    new User()
+                    {
+                        Id = 1,
+                        Name = "user1",
+                        Password = "password123"
+                    },
+                    new User()
+                    {
+                        Id = 2,
+                        Name = "user2",
+                        Password = "password456"
+                    }
+                };
+                EncryptJsonFile(encryptedFilePath);
+                return null;
+            }
+        }
+
+        private void EncryptJsonFile(string encryptedFilePath)
+        {
+            string jsonString = JsonConvert.SerializeObject(users);
+
+            byte[] jsonData = Encoding.UTF8.GetBytes(jsonString);
+            byte[] salt = new byte[] {
+            0x72, 0x69, 0x76, 0x65, 0x72, 0x72, 0x75, 0x6e,
+            0x2c, 0x20, 0x70, 0x61, 0x73, 0x74, 0x20, 0x45 };
+
+            Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(defaultEncryptingPassword, salt, 100000);
+
+            byte[] key = pdb.GetBytes(32);
+            byte[] iv = pdb.GetBytes(16);
+
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = key;
+                aesAlg.IV = iv;
+
+                using (FileStream fsEncrypt = new FileStream(encryptedFilePath, FileMode.Create))
+                {
+                    fsEncrypt.Write(salt, 0, salt.Length);
+
+                    using (CryptoStream csEncrypt = new CryptoStream(fsEncrypt, aesAlg.CreateEncryptor(), CryptoStreamMode.Write))
+                    {
+                        csEncrypt.Write(jsonData, 0, jsonData.Length);
+                    }
                 }
             }
         }

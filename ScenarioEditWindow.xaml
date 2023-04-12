@@ -13,9 +13,9 @@
         <TextBox x:Name="ScenarioNameTxtBox" HorizontalAlignment="Left" Margin="21,44,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="140" Height="24" MaxLines="1" IsReadOnly="False" AllowDrop="False" AutomationProperties.HelpText="ADF CSV file that will be imported for parsing" InputScope="FullFilePath" TextChanged="ScenarioNameTxtBox_TextChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
         <Button x:Name="CancelBtn" Content="Cancelar" HorizontalAlignment="Left" Margin="448,382,0,0" VerticalAlignment="Top" Padding="0,0,0,0" Height="24" Click="CancelBtn_Click" Width="70"/>
         <TextBox x:Name="ScenarioDescriptionTxtBox" HorizontalAlignment="Left" Margin="192,44,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="297" Height="24" MaxLines="1" IsReadOnly="False" InputScope="FullFilePath" AutomationProperties.HelpText="Destination folder where to export the generated xlsl file" AllowDrop="False" TextChanged="ScenarioDescriptionTxtBox_TextChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-        <Label x:Name="ScenarioDescriptionLbl" Content="Descrição" HorizontalAlignment="Left" Margin="192,15,0,0" VerticalAlignment="Top" Width="73" HorizontalContentAlignment="Right" FontSize="14" VerticalContentAlignment="Center" Height="29"/>
-        <Label x:Name="ScenarioNameLbl" Content="Nome" HorizontalAlignment="Left" Margin="21,15,0,0" VerticalAlignment="Top" Width="51" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="29" FontSize="14"/>
-        <Label x:Name="RecipeesLbl" Content="Receitas" ContentStringFormat="{}{0}:" HorizontalAlignment="Left" Margin="21,176,0,0" VerticalAlignment="Top" Width="62" Height="24" HorizontalContentAlignment="Right" Padding="5,5,5,3" VerticalContentAlignment="Center" FontSize="14"/>
+        <Label x:Name="ScenarioDescriptionLbl" Content="Descrição" HorizontalAlignment="Left" Margin="187,15,0,0" VerticalAlignment="Top" Width="69"  FontSize="14" VerticalContentAlignment="Center" Height="29"/>
+        <Label x:Name="ScenarioNameLbl" Content="Nome" HorizontalAlignment="Left" Margin="16,15,0,0" VerticalAlignment="Top" Width="53"  VerticalContentAlignment="Center" Height="29" FontSize="14"/>
+        <Label x:Name="RecipeesLbl" Content="Receitas" ContentStringFormat="{}{0}:" HorizontalAlignment="Left" Margin="16,176,0,0" VerticalAlignment="Top" Width="62" Height="24" Padding="5,5,5,3" VerticalContentAlignment="Center" FontSize="14"/>
         <ListBox x:Name="RecipeesListBox" d:ItemsSource="{d:SampleData ItemCount=10}" Margin="21,205,0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto" Width="280" HorizontalAlignment="Left" Height="134" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="RecipeesBox_SelectionChanged">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -27,6 +27,6 @@
         <Button x:Name="RemoveRecipeButton" Content="Remover" HorizontalAlignment="Left" Margin="326,247,0,0" VerticalAlignment="Top" Width="81" Height="25" Click="RemoveRecipeButton_Click"/>
         <Button x:Name="EditRecipeButton" Content="Editar" HorizontalAlignment="Left" Margin="326,288,0,0" VerticalAlignment="Top" Width="81" Height="25" Click="EditRecipeButtonClick"/>
         <ComboBox x:Name="ActiveRecipeComboBox" HorizontalAlignment="Left" Margin="21,106,0,0" VerticalAlignment="Top" Width="135" SelectionChanged="ActiveRecipeComboBox_SelectionChanged" Height="24"/>
-        <Label x:Name="ActiveRecipeLbl" Content="Receita Ativa:" HorizontalAlignment="Left" Margin="21,77,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="ActiveRecipeLbl" Content="Receita Ativa:" HorizontalAlignment="Left" Margin="16,77,0,0" VerticalAlignment="Top" FontSize="14"/>
     </Grid>
 </Window>

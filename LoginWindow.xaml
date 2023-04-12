@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="Janela de Login" Height="225" Width="508" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Label x:Name="UserNameLbl" Content="Nome de Utilizador" HorizontalAlignment="Left" Margin="19,13,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="UserNameLbl" Content="Nome de Utilizador" HorizontalAlignment="Left" Margin="14,13,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="UserNameTxtBox" HorizontalAlignment="Left" Margin="19,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="222" TextChanged="UserNameTxtBox_TextChanged"/>
-        <Label x:Name="PasswordLbl" Content="Palavra-passe" HorizontalAlignment="Left" Margin="19,77,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="LoginBtn" Content="Entrar" HorizontalAlignment="Left" Margin="393,144,0,0" VerticalAlignment="Top" Width="70" Height="25" Click="LoginBtn_Click"/>
-        <Button x:Name="ExitBtn" Content="Sair" HorizontalAlignment="Left" Margin="301,144,0,0" VerticalAlignment="Top" Width="70" Height="25" Click="ExitBtn_Click"/>
+        <Label x:Name="PasswordLbl" Content="Palavra-passe" HorizontalAlignment="Left" Margin="14,77,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="LoginBtn" Content="Ok" HorizontalAlignment="Left" Margin="393,144,0,0" VerticalAlignment="Top" Width="70" Height="25" Click="LoginBtn_Click"/>
+        <Button x:Name="ExitBtn" Content="Cancelar" HorizontalAlignment="Left" Margin="301,144,0,0" VerticalAlignment="Top" Width="70" Height="25" Click="ExitBtn_Click"/>
         <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="19,108,0,0" VerticalAlignment="Top" Width="222" PasswordChanged="PasswordBox_Changed"/>
     </Grid>
 </Window>
