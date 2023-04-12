@@ -38,7 +38,7 @@ namespace ScenariosConfiguration
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         // Scenarios Engine
-        private const string scenarioManagerDirectory = "C:\\Users\\Vitor\\OneDrive\\Ambiente de Trabalho\\ScenarioManagerApp";
+        private const string scenarioManagerDirectory = "C:\\Users\\vitor\\Desktop\\Sauter\\Test\\win-x64";
         private const string appSettingsFile = scenarioManagerDirectory + "\\" + "appsettings.json";
         private const string scenariosFile = scenarioManagerDirectory + "\\" + "scenarios.json";
 
@@ -188,7 +188,7 @@ namespace ScenariosConfiguration
             }
             else
             {
-                log.Error("Configuration file does not exist!");
+                log.Error("Engine configuration file does not exist!");
             }
 
             return scenarios;
@@ -315,7 +315,11 @@ namespace ScenariosConfiguration
             {
                 scenarios[idx].Name = scenariosConfig[idx].Name;
                 scenarios[idx].Description = scenariosConfig[idx].Description;
-                scenarios[idx].Stages = scenariosConfig[idx].Recipees[scenariosConfig[idx].ActiveRecipe].Stages;
+                if(scenariosConfig[idx].Recipees.Count() > 0)
+                {
+                    scenarios[idx].Stages = scenariosConfig[idx].Recipees[scenariosConfig[idx].ActiveRecipe].Stages;
+                }
+                
             }
 
             JsonSerializer serializer = new JsonSerializer();
@@ -386,7 +390,6 @@ namespace ScenariosConfiguration
 
         private void ScenarioPathButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: instead of getting a folder it should be getting a .json file
             var dialog = new OpenFileDialog() {
                 Filter = "json files (*.json) | *.json;",
                 RestoreDirectory = true,
@@ -407,8 +410,9 @@ namespace ScenariosConfiguration
                 }
                 else
                 {
-                    log.InfoFormat("Loaded {0} Scenarios from configuration", scenarios.Count);
+                    log.InfoFormat("Loaded {0} Scenarios from configuration", scenariosConfig.Count);
                     ScenarioPathTxtBox.Text = defaultConfigFile;
+                    ScenariosListBox.ItemsSource = ToListScenarios();
                     MessageBox.Show("Nova configuração carregada!");
                 }
             }

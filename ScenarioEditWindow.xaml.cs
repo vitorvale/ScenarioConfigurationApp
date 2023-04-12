@@ -217,6 +217,11 @@ namespace ScenariosConfiguration
                 RecipeesListBox.ItemsSource = ToListRecipees();
                 recipe_names = ToListRecipeNames();
                 ActiveRecipeComboBox.ItemsSource = recipe_names;
+
+                if(ActiveRecipeComboBox.SelectedIndex == -1) //set to the first recipe by default if the one selected changed name
+                {
+                    ActiveRecipeComboBox.SelectedIndex = 0;
+                }
             }
         }
 
