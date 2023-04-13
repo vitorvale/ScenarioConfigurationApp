@@ -29,6 +29,7 @@ using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using System.Security.Cryptography;
 using System.Text;
+using System.Diagnostics;
 
 namespace ScenariosConfiguration
 {
@@ -402,6 +403,7 @@ namespace ScenariosConfiguration
         {
             PersistConfiguration(defaultConfigFile);
             SaveConfigToEngine();
+            RestartScenarioManagerService();
             MessageBox.Show("Configuração guardada!");
         }
 
@@ -477,6 +479,7 @@ namespace ScenariosConfiguration
                 log.InfoFormat("Configuration File '{0}' was saved!", dialog.FileName);
                 PersistConfiguration(dialog.FileName);
                 SaveConfigToEngine();
+                RestartScenarioManagerService();
             }
         }
 
@@ -587,6 +590,32 @@ namespace ScenariosConfiguration
                     }
                 }
             }
+        }
+
+        private void RestartScenarioManagerService()
+        {
+            string bat = basePath + "\\" + "StartScenarioManagerService.bat";
+            var psi = new ProcessStartInfo();
+            psi.CreateNoWindow = true; //This hides the dos-style black window that the command prompt usually shows
+            psi.FileName = @"cmd.exe";
+            psi.Verb = "runas"; //This is what actually runs the command as administrator
+            psi.Arguments = "/C " + bat;
+            psi.UseShellExecute = true;
+            try
+            {
+                var process = new Process();
+                process.StartInfo = psi;
+                process.Start();
+                process.WaitForExit();
+                log.Info("Restarted ScenarioManager Service!");
+            }
+            catch (Exception e)
+            {
+                //If you are here the user clicked decline to grant admin privileges (or he's not administrator)
+                log.Error(e.Message);
+            }
+
+            
         }
     }
 }
